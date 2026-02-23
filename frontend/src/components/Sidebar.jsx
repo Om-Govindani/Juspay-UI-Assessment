@@ -16,12 +16,11 @@ import { CgProfile } from "react-icons/cg"
 
 import { useTheme } from "../contexts/ThemeContext"
 
-export default function Sidebar() {
+export default function Sidebar({showSidebar}) {
   const { theme } = useTheme()
   const isDark = theme === "dark"
 
-  const [openMenu, setOpenMenu] = useState("User Profile") // default open
-
+  const [openMenu, setOpenMenu] = useState("User Profile")
   const toggleMenu = (menu) => {
     setOpenMenu(prev => (prev === menu ? null : menu))
   }
@@ -29,9 +28,9 @@ export default function Sidebar() {
   return (
     <aside
       className={`
-        w-[240px]
+        ${showSidebar ? "w-[240px]" : "w-0"}
         h-screen overflow-y-scroll
-        transition-colors duration-300
+        transition-all duration-300
         pt-[20px] pb-[20px] px-[22px]
         flex flex-col gap-[14px]
         font-inter
@@ -40,6 +39,7 @@ export default function Sidebar() {
             ? "bg-neutral-900 border-r border-white/10"
             : "bg-white border-r border-[#1C1C1C30]"
         }
+        ${showSidebar ? "translate-x-0" : "-translate-x-full"}
       `}
     >
       <div className="flex items-center gap-[12px]">

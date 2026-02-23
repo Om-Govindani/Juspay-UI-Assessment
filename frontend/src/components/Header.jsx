@@ -11,9 +11,11 @@ import {
 
 import { useTheme } from "../contexts/ThemeContext"
 
-export default function Header() {
+export default function Header({showSidebar , setShowSidebar}) {
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === "dark"
+
+  const toggleSidebar = () => setShowSidebar(!showSidebar)
   return (
     <header
       className={`
@@ -35,6 +37,7 @@ export default function Header() {
           size={18}
           strokeWidth={1.5}
           className={isDark ? "text-white" : "text-neutral-900"}
+          onClick={toggleSidebar}
         />
 
         <Star

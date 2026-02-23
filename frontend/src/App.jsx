@@ -5,8 +5,10 @@ import Sidebar from './components/Sidebar';
 import RightBar from './components/Rightbar';
 import { useTheme } from "./contexts/ThemeContext"
 import Dashboard from './components/Dashboard/Dashboard';
+import {useState} from "react";
 
 function App() {
+    const [showSidebar , setShowSidebar] = useState(true);
     const { theme } = useTheme()
     const isDark = theme === "dark"
 
@@ -18,11 +20,11 @@ function App() {
                   ${isDark ? "bg-neutral-900" : "bg-white"} 
                   transition-colors duration-300
               `}>
-                <Sidebar />
-                <div className='flex flex-row w-full'>
-                    <Dashboard />
-                    <RightBar />
-                </div>
+                <Sidebar showSidebar={showSidebar}/>
+                <Routes>
+								    <Route path="/" element={<Dashboard showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>} />
+								    {/* <Route path="/orders" element={<Table />} /> */}
+							  </Routes>
           </div>
     </Router>
   )
