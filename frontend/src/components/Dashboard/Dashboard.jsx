@@ -14,7 +14,7 @@ export default function Dashboard({showSidebar , setShowSidebar}) {
   const [showRightbar , setShowRightbar] = useState(true);
   return (
     <div className="flex w-full h-screen">
-      <div className="flex flex-col flex-1 min-w-0">
+      <div className="flex-col flex-1 min-w-0">
         <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} showRightbar={showRightbar} setShowRightbar={setShowRightbar} />
           <main className={`p-6 max-h-screen overflow-y-scroll overflow-x-hidden font-inter transition-colors duration-200 ${themeStyles.textPrimary}`}>
             <div className="grid grid-cols-12 gap-6 mb-16">
