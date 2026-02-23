@@ -12,8 +12,7 @@ const cityData = [
 ]
 
 export default function RevenueByLocation() {
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
+  const { themeStyles } = useTheme()
   const chartRef = useRef(null)
 
   const options = useMemo(() => ({
@@ -26,13 +25,12 @@ export default function RevenueByLocation() {
     },
 
     title: { text: null },
-
     mapNavigation: { enabled: false },
 
     tooltip: {
       pointFormat: "{point.name}",
-      backgroundColor: isDark ? "#111827" : "#ffffff",
-      style: { color: isDark ? "#ffffff" : "#000000" },
+      backgroundColor: themeStyles.donutTooltipBg,
+      style: { color: "#ffffff" },
       borderWidth: 0
     },
 
@@ -41,29 +39,29 @@ export default function RevenueByLocation() {
         mapData: worldGeo,
         data: [],
         borderWidth: 0,
-        nullColor: isDark ? "#e6f2f8" : "#62758A",
+        nullColor: themeStyles.mapBase,
         showInLegend: false
       },
       {
-            type: "mappoint",
-            data: cityData.map(c => ({
-                name: c.name,
-                lat: c.lat,
-                lon: c.lon
-            })),
-            color: isDark ? "#ffffff" : "#111827",
-            marker: {
-                radius: 4,
-                fillColor: isDark ? "#ffffff" : "#111827"
-            },
-            showInLegend: false,
-            zIndex: 5
+        type: "mappoint",
+        data: cityData.map(c => ({
+          name: c.name,
+          lat: c.lat,
+          lon: c.lon
+        })),
+        color: themeStyles.textPrimary,
+        marker: {
+          radius: 4,
+          fillColor: themeStyles.textPrimary
+        },
+        showInLegend: false,
+        zIndex: 5
       }
     ],
 
     credits: { enabled: false }
 
-  }), [isDark])
+  }), [themeStyles])
 
   useEffect(() => {
     if (chartRef.current?.chart) {
@@ -74,7 +72,6 @@ export default function RevenueByLocation() {
   return (
     <div className="flex flex-col">
 
-      {/* MAP */}
       <HighchartsReact
         highcharts={Highcharts}
         constructorType="mapChart"
@@ -82,31 +79,32 @@ export default function RevenueByLocation() {
         ref={chartRef}
       />
 
-      {/* CITY LIST */}
       <div className="flex flex-col gap-4">
         {cityData.map(city => (
-          <CityRow key={city.name} city={city} isDark={isDark} />
+          <CityRow key={city.name} city={city} />
         ))}
       </div>
     </div>
   )
 }
 
-function CityRow({ city, isDark }) {
+function CityRow({ city }) {
+  const { themeStyles } = useTheme()
+
   return (
     <div className="flex flex-col gap-1">
       <div className="flex justify-between text-[12px] font-light">
-        <span>{city.name}</span>
-        <span className="text-neutral-400">{city.value}K</span>
+        <span className={themeStyles.textPrimary}>
+          {city.name}
+        </span>
+        <span className={themeStyles.textMuted}>
+          {city.value}K
+        </span>
       </div>
 
-      <div className={`w-full h-[2px] rounded-full ${
-        isDark ? "bg-neutral-700" : "bg-neutral-200"
-      }`}>
+      <div className={`w-full h-[2px] rounded-full ${themeStyles.progressBg}`}>
         <div
-          className={`h-[2px] rounded-full transition-all duration-500 ${
-            isDark ? "bg-[#6a9faf]" : "bg-blue-400"
-          }`}
+          className={`h-[2px] rounded-full transition-all duration-500 ${themeStyles.progressFill}`}
           style={{ width: `${city.value}%` }}
         />
       </div>

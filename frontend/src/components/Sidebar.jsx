@@ -17,9 +17,7 @@ import { CgProfile } from "react-icons/cg"
 import { useTheme } from "../contexts/ThemeContext"
 
 export default function Sidebar({showSidebar}) {
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
-
+  const { themeStyles } = useTheme()
   const [openMenu, setOpenMenu] = useState("User Profile")
   const toggleMenu = (menu) => {
     setOpenMenu(prev => (prev === menu ? null : menu))
@@ -33,177 +31,155 @@ export default function Sidebar({showSidebar}) {
         transition-all duration-300
         pt-[20px] pb-[20px] px-[22px]
         flex flex-col gap-[14px]
-        font-inter
-        ${
-          isDark
-            ? "bg-neutral-900 border-r border-white/10"
-            : "bg-white border-r border-[#1C1C1C30]"
-        }
+        font-inter border-r
+        ${themeStyles.sidebarBg} ${themeStyles.borderPrimary}
         ${showSidebar ? "translate-x-0" : "-translate-x-full"}
       `}
     >
       <div className="flex items-center gap-[12px]">
-        <CgProfile color={isDark ? "white" : "#1C1C1C"} size={22}/>
-        <span className={`text-[14px] font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
+        <CgProfile color={themeStyles.textPrimary} size={22}/>
+        <span className={`text-[14px] font-medium ${themeStyles.textPrimary}`}>
           ByeWind
         </span>
       </div>
 
-      <SectionTitle isDark={isDark}>Favorites</SectionTitle>
-      <DotItem isDark={isDark} label="Overview" />
-      <DotItem isDark={isDark} label="Projects" />
+      <SectionTitle>Favorites</SectionTitle>
+      <DotItem label="Overview" />
+      <DotItem label="Projects" />
 
-      <SectionTitle isDark={isDark}>Dashboards</SectionTitle>
+      <SectionTitle >Dashboards</SectionTitle>
 
       <ActiveItem
-        isDark={isDark}
         icon={<LayoutDashboard size={16} strokeWidth={1.5} />}
         label="Default"
       />
 
-      <NavItem isDark={isDark} icon={<ShoppingBag size={16} />} label="eCommerce" />
-      <NavItem isDark={isDark} icon={<Folder size={16} />} label="Projects" />
-      <NavItem isDark={isDark} icon={<BookOpen size={16} />} label="Online Courses" />
-
-      <SectionTitle isDark={isDark}>Pages</SectionTitle>
+      <div>
+        <NavItem icon={<ShoppingBag size={16} />} label="eCommerce" />
+        <NavItem icon={<Folder size={16} />} label="Projects" />
+        <NavItem icon={<BookOpen size={16} />} label="Online Courses" />
+      </div>
+      <SectionTitle >Pages</SectionTitle>
 
       <AccordionItem
         label="User Profile"
         icon={<User size={16} />}
-        isDark={isDark}
         isOpen={openMenu === "User Profile"}
         onClick={() => toggleMenu("User Profile")}
       >
         {["Overview", "Projects", "Campaigns", "Documents", "Followers"].map(item => (
-          <SubItem key={item} label={item} isDark={isDark} />
+          <SubItem key={item} label={item} />
         ))}
       </AccordionItem>
 
       <AccordionItem
         label="Account"
         icon={<IdCard size={16} />}
-        isDark={isDark}
         isOpen={openMenu === "Account"}
         onClick={() => toggleMenu("Account")}
       >
-        <SubItem label="Settings" isDark={isDark} />
-        <SubItem label="Billing" isDark={isDark} />
+        <SubItem label="Settings"/>
+        <SubItem label="Billing"/>
       </AccordionItem>
 
       <AccordionItem
         label="Corporate"
         icon={<Settings size={16} />}
-        isDark={isDark}
         isOpen={openMenu === "Corporate"}
         onClick={() => toggleMenu("Corporate")}
       >
-        <SubItem label="Teams" isDark={isDark} />
-        <SubItem label="Policies" isDark={isDark} />
+        <SubItem label="Teams" />
+        <SubItem label="Policies" />
       </AccordionItem>
 
       <AccordionItem
         label="Blog"
         icon={<FileText size={16} />}
-        isDark={isDark}
         isOpen={openMenu === "Blog"}
         onClick={() => toggleMenu("Blog")}
       >
-        <SubItem label="All Posts" isDark={isDark} />
-        <SubItem label="Categories" isDark={isDark} />
+        <SubItem label="All Posts"/>
+        <SubItem label="Categories" />
       </AccordionItem>
 
       <AccordionItem
         label="Social"
         icon={<MessageCircle size={16} />}
-        isDark={isDark}
         isOpen={openMenu === "Social"}
         onClick={() => toggleMenu("Social")}
       >
-        <SubItem label="Messages" isDark={isDark} />
-        <SubItem label="Followers" isDark={isDark} />
+        <SubItem label="Messages" />
+        <SubItem label="Followers" />
       </AccordionItem>
 
     </aside>
   )
 }
 
-function SectionTitle({ children, isDark }) {
+function SectionTitle({ children}) {
+  const { themeStyles } = useTheme()
   return (
     <div
-        className={`text-[12px] font-light leading-[16px] mt-[10px] ${
-            isDark ? "text-white/50" : "text-neutral-900"
-        }`}
+        className={`text-[12px] font-light leading-[16px] mt-[10px] ${themeStyles.textMuted}`}
     >
         {children}
     </div>
   )
 }
 
-function DotItem({ label, isDark }) {
+function DotItem({ label }) {
+  const { themeStyles } = useTheme()
   return (
     <div className="flex items-center gap-[12px]">
-        <div
-            className={`w-[6px] h-[6px] rounded-full ${
-                isDark ? "bg-white/40" : "bg-neutral-900"
-            }`}
-        />
-        <span
-            className={`text-[14px] leading-[20px] ${
-                isDark ? "text-white" : "text-neutral-900"
-            }`}
-        >
-            {label}
-        </span>
+      <div className={`w-[6px] h-[6px] rounded-full ${themeStyles.textMuted}`} />
+      <span className={`text-[14px] ${themeStyles.textPrimary}`}>
+        {label}
+      </span>
     </div>
   )
 }
 
-function NavItem({ icon, label, isDark }) {
+function NavItem({ icon, label }) {
+  const { themeStyles } = useTheme()
   return (
     <div
-        className={`flex gap-[12px] px-[2px] py-[6px] rounded-[8px]
-        text-[14px] leading-[20px] cursor-pointer transition-colors duration-200
-        ${
-            isDark
-            ? "text-white hover:bg-white/10"
-            : "text-neutral-900 hover:bg-black/5"
-        }`}
+      className={`
+        flex gap-[12px] px-[2px] py-[6px] rounded-[8px]
+        text-[14px] cursor-pointer transition-colors duration-200
+        ${themeStyles.textPrimary}
+        hover:bg-black/5 dark:hover:bg-white/10
+      `}
     >
-        <ChevronRight
-            size={14}
-            className={isDark ? "text-white/50" : "text-neutral-900"}
-        />
+      <ChevronRight size={14} className={themeStyles.textMuted} />
+      {icon}
+      <span>{label}</span>
+    </div>
+  )
+}
+
+function ActiveItem({ icon, label }) {
+  const { themeStyles } = useTheme()
+  return (
+    <div
+      className={`
+        relative flex items-center gap-[12px] px-[8px] py-[6px]
+        rounded-[8px] text-[14px]
+        ${themeStyles.cardBg}
+        ${themeStyles.textPrimary}
+      `}
+    >
+      <div className="absolute left-0 top-[6px] bottom-[6px] w-[3px] rounded-full bg-current" />
+      <div className="ml-[6px] flex items-center gap-[12px]">
         {icon}
         <span>{label}</span>
-        </div>
-    )
-}
-
-function ActiveItem({ icon, label, isDark }) {
-  return (
-    <div
-      className={`relative flex items-center gap-[12px] px-[8px] py-[6px]
-        rounded-[8px] text-[14px] leading-[20px]
-        ${
-          isDark
-            ? "bg-white/10 text-white"
-            : "bg-[#ECECEC] text-neutral-800"
-        }`}
-    >
-        <div
-            className={`absolute left-0 top-[6px] bottom-[6px] w-[3px] rounded-full ${
-                isDark ? "bg-white" : "bg-neutral-800"
-            }`}
-        />
-        <div className="ml-[6px] flex items-center gap-[12px]">
-            {icon}
-            <span>{label}</span>
-        </div>
+      </div>
     </div>
   )
 }
 
-function AccordionItem({ icon, label, isDark, isOpen, onClick, children }) {
+function AccordionItem({ icon, label, isOpen, onClick, children }) {
+  const { themeStyles } = useTheme()
+
   return (
     <div className="flex flex-col">
       <div
@@ -211,28 +187,25 @@ function AccordionItem({ icon, label, isDark, isOpen, onClick, children }) {
         className={`
           flex items-center gap-[12px]
           px-[2px] py-[6px]
-          rounded-[8px] transition-all duration-100
+          rounded-[8px]
           cursor-pointer
           text-[14px]
-          ${
-            isDark
-              ? "text-white hover:bg-white/10"
-              : "text-neutral-800 hover:bg-black/5"
-          }
+          ${themeStyles.textPrimary}
+          hover:bg-black/5 dark:hover:bg-white/10
         `}
       >
         <ChevronRight
           size={14}
           className={`transition-transform duration-200 ${
             isOpen ? "rotate-90" : ""
-          }`}
+          } ${themeStyles.textMuted}`}
         />
         {icon}
         <span>{label}</span>
       </div>
 
       {isOpen && (
-        <div className="ml-[40px] flex flex-col gap-[8px] mt-[4px] transition-all ease">
+        <div className="ml-[40px] flex flex-col gap-[8px] mt-[4px]">
           {children}
         </div>
       )}
@@ -240,13 +213,11 @@ function AccordionItem({ icon, label, isDark, isOpen, onClick, children }) {
   )
 }
 
-function SubItem({ label, isDark }) {
+
+function SubItem({ label }) {
+  const { themeStyles } = useTheme()
   return (
-    <span
-      className={`ml-4 text-[14px] leading-[20px] cursor-pointer ${
-        isDark ? "text-white/90" : "text-neutral-800"
-      }`}
-    >
+    <span className={`ml-4 text-[14px] cursor-pointer ${themeStyles.textMuted}`}>
       {label}
     </span>
   )

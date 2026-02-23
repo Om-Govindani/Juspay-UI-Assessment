@@ -10,27 +10,30 @@ const rows = [
 ]
 
 export default function TopProductsTable() {
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
+  const { themeStyles } = useTheme()
 
   return (
     <div>
       <table className="w-full text-sm mt-6">
         <thead>
-          <tr className="text-left text-[14px] text-neutral-400">
+          <tr className={`text-left text-[14px] ${themeStyles.textMuted}`}>
             <th>Name</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Amount</th>
           </tr>
         </thead>
+
         <tbody>
           {rows.map((r) => (
-            <tr key={r[0]} className={`border-t ${isDark ? "border-neutral-800" : "border-gray-100"} h-12`}>
-              <td className="py-2">{r[0]}</td>
-              <td className="py-2">{r[1]}</td>
-              <td className="py-2">{r[2]}</td>
-              <td className="py-2">{r[3]}</td>
+            <tr
+              key={r[0]}
+              className={`border-t ${themeStyles.tableBorder} h-12`}
+            >
+              <td className={`py-2 ${themeStyles.textPrimary}`}>{r[0]}</td>
+              <td className={`py-2 ${themeStyles.textPrimary}`}>{r[1]}</td>
+              <td className={`py-2 ${themeStyles.textPrimary}`}>{r[2]}</td>
+              <td className={`py-2 ${themeStyles.textPrimary}`}>{r[3]}</td>
             </tr>
           ))}
         </tbody>

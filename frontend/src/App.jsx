@@ -6,24 +6,23 @@ import RightBar from './components/Rightbar';
 import { useTheme } from "./contexts/ThemeContext"
 import Dashboard from './components/Dashboard/Dashboard';
 import {useState} from "react";
+import OrdersPage from './components/OrderList/OrderPage';
 
 function App() {
     const [showSidebar , setShowSidebar] = useState(true);
-    const { theme } = useTheme()
-    const isDark = theme === "dark"
-
+    const { themeStyles } = useTheme()
     return (
       <Router>
           <div 
             className={`
                   flex h-screen overflow-hidden
-                  ${isDark ? "bg-neutral-900" : "bg-white"} 
+                  ${themeStyles.layoutBg} 
                   transition-colors duration-300
               `}>
                 <Sidebar showSidebar={showSidebar}/>
                 <Routes>
 								    <Route path="/" element={<Dashboard showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>} />
-								    {/* <Route path="/orders" element={<Table />} /> */}
+								    <Route path="/orders" element={<OrdersPage/>} />
 							  </Routes>
           </div>
     </Router>

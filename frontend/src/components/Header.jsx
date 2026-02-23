@@ -1,5 +1,6 @@
 import {
   PanelLeft,
+  PanelRight,
   Star,
   Sun,
   Moon,
@@ -11,11 +12,11 @@ import {
 
 import { useTheme } from "../contexts/ThemeContext"
 
-export default function Header({showSidebar , setShowSidebar}) {
-  const { theme, toggleTheme } = useTheme()
-  const isDark = theme === "dark"
+export default function Header({showSidebar , setShowSidebar , showRightbar , setShowRightbar}) {
+  const { theme , themeStyles, toggleTheme } = useTheme()
 
   const toggleSidebar = () => setShowSidebar(!showSidebar)
+  const toggleRightbar = () => setShowRightbar(!showRightbar)
   return (
     <header
       className={`
@@ -23,42 +24,36 @@ export default function Header({showSidebar , setShowSidebar}) {
         w-full
         px-[24px]
         flex items-center justify-between
-        font-inter
+        font-inter border-b
         transition-colors duration-300
-        ${
-          isDark
-            ? "bg-neutral-900 border-b border-white/10"
-            : "bg-white border-b border-[#1C1C1C30]"
-        }
+        ${themeStyles.layoutBg} ${themeStyles.borderPrimary}
       `}
     >
       <div className="flex items-center gap-[16px]">
         <PanelLeft
           size={18}
           strokeWidth={1.5}
-          className={isDark ? "text-white" : "text-neutral-900"}
+          className={`${themeStyles.textPrimary}`}
           onClick={toggleSidebar}
         />
 
         <Star
           size={18}
           strokeWidth={1.5}
-          className={isDark ? "text-white/60" : "text-neutral-900"}
+          className={`${themeStyles.textMuted}`}
         />
 
         <div className="flex items-center gap-[8px] text-[14px] leading-[20px]">
-          <span className={isDark ? "text-white/60" : "text-neutral-900"}>
+          <span className={`${themeStyles.textMuted}`}>
             Dashboards
           </span>
 
-          <span className={isDark ? "text-white/40" : "text-neutral-900"}>
+          <span className={`${themeStyles.textMuted}`}>
             /
           </span>
 
           <span
-            className={
-              isDark ? "text-white font-medium" : "text-neutral-900 font-medium"
-            }
+            className={`${themeStyles.textPrimary} font-medium`}
           >
             Default
           </span>
@@ -74,16 +69,13 @@ export default function Header({showSidebar , setShowSidebar}) {
             rounded-[8px]
             border
             transition-colors duration-300
-            ${
-              isDark
-                ? "bg-neutral-900 border-white/10"
-                : "bg-white border-[#1C1C1C1A]"
-            }
+            ${themeStyles.layoutBg}
+            ${themeStyles.borderPrimary}
           `}
         >
           <Search
             size={16}
-            className={isDark ? "text-white/60" : "text-neutral-900"}
+            className={`${themeStyles.textMuted}`}
           />
 
           <input
@@ -94,11 +86,8 @@ export default function Header({showSidebar , setShowSidebar}) {
               bg-transparent
               outline-none
               text-[14px]
-              ${
-                isDark
-                  ? "text-white placeholder:text-white/50"
-                  : "text-neutral-800 placeholder:text-neutral-800"
-              }
+              ${themeStyles.textPrimary}
+              placeholder:opacity-60
             `}
           />
 
@@ -108,11 +97,8 @@ export default function Header({showSidebar , setShowSidebar}) {
               px-[6px]
               py-[2px]
               rounded-[4px]
-              ${
-                isDark
-                  ? "bg-neutral-800 text-white/60"
-                  : "bg-[#F3F3F3] text-neutral-900"
-              }
+              ${themeStyles.kbdBg}
+              ${themeStyles.textMuted}
             `}
           >
             ⌘K
@@ -120,26 +106,21 @@ export default function Header({showSidebar , setShowSidebar}) {
         </div>
 
         <button onClick={toggleTheme}>
-          {isDark ? (
-            <Sun size={18} className="text-white" />
+          {theme === "dark" ? (
+            <Sun size={18} className={themeStyles.textPrimary} />
           ) : (
-            <Moon size={18} className="text-neutral-900" />
+            <Moon size={18} className={themeStyles.textPrimary} />
           )}
         </button>
 
-        <Clock
+        <Clock size={18} className={themeStyles.textMuted} />
+        <Bell size={18} className={themeStyles.textMuted} />
+        <LayoutGrid size={18} className={themeStyles.textMuted} />
+        <PanelRight 
           size={18}
-          className={isDark ? "text-white/70" : "text-neutral-900"}
-        />
-
-        <Bell
-          size={18}
-          className={isDark ? "text-white/70" : "text-neutral-900"}
-        />
-
-        <LayoutGrid
-          size={18}
-          className={isDark ? "text-white/70" : "text-neutral-900"}
+          strokeWidth={1.5}
+          className={`${themeStyles.textPrimary}`}
+          onClick={toggleRightbar}
         />
       </div>
     </header>

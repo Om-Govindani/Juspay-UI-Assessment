@@ -6,69 +6,59 @@ import {
 
 import { useTheme } from "../contexts/ThemeContext"
 
-export default function RightBar() {
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
-
-  const bgClass = isDark ? "bg-neutral-900" : "bg-[#F9F9F9]"
-  const borderClass = isDark ? "border-white/10" : "border-[#1C1C1C1A]"
-  const textPrimary = isDark ? "text-white" : "text-[#1C1C1C]"
-  const textMuted = isDark ? "text-white/60" : "text-[#1C1C1C66]"
+export default function RightBar({showRightbar}) {
+  const { themeStyles } = useTheme()
 
   return (
     <aside
       className={`
-        w-[355px]
+        "w-[280px]"
         h-screen overflow-y-scroll
         p-[20px]
         flex flex-col
         gap-[24px]
         font-inter
         transition-colors duration-300
-        ${bgClass}
-        border-l ${borderClass}
+        ${themeStyles.sidebarBg}
+        border-l ${themeStyles.borderSecondary}
       `}
     >
-      <SectionTitle isDark={isDark}>Notifications</SectionTitle>
+      <SectionTitle >Notifications</SectionTitle>
 
       <div className="flex flex-col gap-[16px]">
         <NotificationItem
           icon={<Bug size={16} />}
           title="You have a bug that needs..."
           time="Just now"
-          isDark={isDark}
         />
         <NotificationItem
           icon={<UserPlus size={16} />}
           title="New user registered"
           time="59 minutes ago"
-          isDark={isDark}
         />
         <NotificationItem
           icon={<Bug size={16} />}
           title="You have a bug that needs..."
           time="12 hours ago"
-          isDark={isDark}
         />
         <NotificationItem
           icon={<Radio size={16} />}
           title="Andi Lane subscribed to you"
           time="Today, 11:59 AM"
-          isDark={isDark}
         />
       </div>
 
-      <SectionTitle isDark={isDark}>Activities</SectionTitle>
+      <SectionTitle >Activities</SectionTitle>
 
       <div className="flex flex-col gap-[18px]">
-        <ActivityItem name="You have a bug that needs..." time="Just now" isDark={isDark} />
-        <ActivityItem name="Released a new version" time="59 minutes ago" isDark={isDark} />
-        <ActivityItem name="Submitted a bug" time="12 hours ago" isDark={isDark} />
-        <ActivityItem name="Modified A data in Page X" time="Today, 11:59 AM" isDark={isDark} />
-        <ActivityItem name="Deleted a page in Project X" time="Feb 2, 2023" isDark={isDark} />
+        <ActivityItem name="You have a bug that needs..." time="Just now" />
+        <ActivityItem name="Released a new version" time="59 minutes ago" />
+        <ActivityItem name="Submitted a bug" time="12 hours ago" />
+        <ActivityItem name="Modified A data in Page X" time="Today, 11:59 AM" />
+        <ActivityItem name="Deleted a page in Project X" time="Feb 2, 2023"/>
       </div>
 
-      <SectionTitle isDark={isDark}>Contacts</SectionTitle>
+      <SectionTitle >Contacts</SectionTitle>
 
       <div className="flex flex-col gap-[14px]">
         {[
@@ -79,26 +69,28 @@ export default function RightBar() {
           "Kate Morrison",
           "Koray Okumus",
         ].map((name) => (
-          <ContactItem key={name} name={name} isDark={isDark} />
+          <ContactItem key={name} name={name} />
         ))}
       </div>
     </aside>
   )
 }
 
-function SectionTitle({ children, isDark }) {
+function SectionTitle({ children }) {
+  const {themeStyles} = useTheme();
   return (
     <div
-      className={`text-[14px] font-medium ${
-        isDark ? "text-white" : "text-[#1C1C1C]"
-      }`}
+      className={`text-[14px] font-medium ${themeStyles.textPrimary}`}
     >
       {children}
     </div>
   )
 }
 
-function NotificationItem({ icon, title, time, isDark }) {
+
+function NotificationItem({ icon, title, time }) {
+  const { themeStyles } = useTheme()
+
   return (
     <div className="flex gap-[12px] items-start">
       <div
@@ -106,25 +98,18 @@ function NotificationItem({ icon, title, time, isDark }) {
           w-[32px] h-[32px]
           flex items-center justify-center
           rounded-full
-          ${isDark ? "bg-white/10 text-white" : "bg-[#EAEAEA] text-[#1C1C1C]"}
+          ${themeStyles.cardBg}
+          ${themeStyles.textPrimary}
         `}
       >
         {icon}
       </div>
 
       <div className="flex flex-col gap-[2px]">
-        <span
-          className={`text-[14px] font-normal ${
-            isDark ? "text-white" : "text-[#1C1C1C]"
-          }`}
-        >
+        <span className={`text-[14px] ${themeStyles.textPrimary}`}>
           {title}
         </span>
-        <span
-          className={`text-[12px] ${
-            isDark ? "text-white/60" : "text-[#1C1C1C66]"
-          }`}
-        >
+        <span className={`text-[12px] ${themeStyles.textMuted}`}>
           {time}
         </span>
       </div>
@@ -132,24 +117,17 @@ function NotificationItem({ icon, title, time, isDark }) {
   )
 }
 
-function ActivityItem({ name, time, isDark }) {
+function ActivityItem({ name, time }) {
+  const { themeStyles } = useTheme()
+
   return (
     <div className="flex gap-[12px] items-start">
-      <Avatar name={name} isDark={isDark} />
-
+      <Avatar name={name} />
       <div className="flex flex-col gap-[2px]">
-        <span
-          className={`text-[14px] ${
-            isDark ? "text-white" : "text-[#1C1C1C]"
-          }`}
-        >
+        <span className={`text-[14px] ${themeStyles.textPrimary}`}>
           {name}
         </span>
-        <span
-          className={`text-[12px] ${
-            isDark ? "text-white/60" : "text-[#1C1C1C66]"
-          }`}
-        >
+        <span className={`text-[12px] ${themeStyles.textMuted}`}>
           {time}
         </span>
       </div>
@@ -157,22 +135,21 @@ function ActivityItem({ name, time, isDark }) {
   )
 }
 
-function ContactItem({ name, isDark }) {
+function ContactItem({ name }) {
+  const { themeStyles } = useTheme()
+
   return (
     <div className="flex items-center gap-[12px]">
-      <Avatar name={name} isDark={isDark} />
-      <span
-        className={`text-[14px] ${
-          isDark ? "text-white" : "text-[#1C1C1C]"
-        }`}
-      >
+      <Avatar name={name} />
+      <span className={`text-[14px] ${themeStyles.textPrimary}`}>
         {name}
       </span>
     </div>
   )
 }
 
-function Avatar({ name, isDark }) {
+function Avatar({ name }) {
+  const { themeStyles } = useTheme()
   const initial = name.charAt(0).toUpperCase()
 
   return (
@@ -182,11 +159,8 @@ function Avatar({ name, isDark }) {
         rounded-full
         flex items-center justify-center
         text-[14px] font-medium
-        ${
-          isDark
-            ? "bg-white/10 text-white"
-            : "bg-[#DADADA] text-[#1C1C1C]"
-        }
+        ${themeStyles.cardBg}
+        ${themeStyles.textPrimary}
       `}
     >
       {initial}

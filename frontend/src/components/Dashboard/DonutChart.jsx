@@ -11,8 +11,7 @@ const salesData = [
 ]
 
 export default function DonutChart() {
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
+  const { themeStyles } = useTheme()
   const chartRef = useRef(null)
 
   const options = useMemo(() => ({
@@ -27,7 +26,7 @@ export default function DonutChart() {
 
     tooltip: {
       pointFormat: "<b>{point.y}%</b>",
-      backgroundColor: isDark ? "#1f2937" : "#374151",
+      backgroundColor: themeStyles.donutTooltipBg,
       style: { color: "#ffffff" },
       borderWidth: 0,
       borderRadius: 8
@@ -61,7 +60,7 @@ export default function DonutChart() {
 
     credits: { enabled: false }
 
-  }), [isDark])
+  }), [themeStyles])
 
   useEffect(() => {
     if (chartRef.current?.chart) {
@@ -78,6 +77,7 @@ export default function DonutChart() {
           ref={chartRef}
         />
       </div>
+
       <div className="flex flex-col gap-3 text-sm">
         {salesData.map(item => (
           <div key={item.name} className="flex items-center justify-between gap-6">
@@ -86,13 +86,17 @@ export default function DonutChart() {
                 className="w-2.5 h-2.5 rounded-full"
                 style={{ backgroundColor: item.color }}
               />
-              <span>{item.name}</span>
+              <span className={themeStyles.textPrimary}>
+                {item.name}
+              </span>
             </div>
-            <span className="text-neutral-400">{item.amount}</span>
+
+            <span className={themeStyles.textMuted}>
+              {item.amount}
+            </span>
           </div>
         ))}
       </div>
-
     </div>
   )
 }

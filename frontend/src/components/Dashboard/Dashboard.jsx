@@ -1,4 +1,4 @@
-import React from "react"
+import {React , useState} from "react"
 import { useTheme } from "../../contexts/ThemeContext"
 import StatsCard from "./StatsCard"
 import BarChart from "./BarChart"
@@ -10,14 +10,13 @@ import Header from "../Header"
 import RightBar from "../Rightbar"
 
 export default function Dashboard({showSidebar , setShowSidebar}) {
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
-
+  const { themeStyles } = useTheme()
+  const [showRightbar , setShowRightbar] = useState(true);
   return (
-    <div className='flex flex-row w-full'>
-      <div>
-        <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-          <main className={`p-6 max-h-screen max-w-[1250px] overflow-y-scroll font-inter transition-colors duration-200 ${isDark ? "text-white" : "text-neutral-900"}`}>
+    <div className="flex w-full h-screen">
+      <div className="flex flex-col flex-1 min-w-0">
+        <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} showRightbar={showRightbar} setShowRightbar={setShowRightbar} />
+          <main className={`p-6 max-h-screen overflow-y-scroll overflow-x-hidden font-inter transition-colors duration-200 ${themeStyles.textPrimary}`}>
             <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-6">
                 <div className="grid grid-cols-2 gap-6">
@@ -64,18 +63,17 @@ export default function Dashboard({showSidebar , setShowSidebar}) {
               </div>
           </main>
       </div>
-      <RightBar />
+      {showRightbar && <RightBar showRightbar={showRightbar}/>}
     </div>
   )
 }
 
 
 function Card({ title, children }) {
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
+  const { themeStyles } = useTheme()
   return (
-    <div className={`rounded-xl p-5 shadow-sm transition-colors duration-200 ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
-      {title && <div className={`text-sm ${isDark ? "text-white" : "text-neutral-800"} font-medium mb-4`}>{title}</div>}
+    <div className={`rounded-xl p-5 shadow-sm transition-colors duration-200 ${themeStyles.cardBg}`}>
+      {title && <div className={`text-sm ${themeStyles.textSecondary} font-medium mb-4`}>{title}</div>}
       <div>{children}</div>
     </div>
   )
