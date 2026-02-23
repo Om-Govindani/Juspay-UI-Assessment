@@ -22,7 +22,7 @@ function App() {
                 <Sidebar showSidebar={showSidebar}/>
                 <Routes>
 								    <Route path="/" element={<Dashboard showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>} />
-								    <Route path="/orders" element={<OrdersPage/>} />
+								    <Route path="/orders" element={<OrdersPage showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>} />
 							  </Routes>
           </div>
     </Router>

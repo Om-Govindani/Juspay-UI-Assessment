@@ -199,7 +199,7 @@ export default function OrdersTable() {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mt-2">
         <table className="w-full text-sm min-w-[900px]">
           <thead className={`${themeStyles.textMuted} text-left`}>
             <tr>

@@ -17,7 +17,7 @@ import { CgProfile } from "react-icons/cg"
 import { useTheme } from "../contexts/ThemeContext"
 
 export default function Sidebar({showSidebar}) {
-  const { themeStyles } = useTheme()
+  const { theme , themeStyles } = useTheme()
   const [openMenu, setOpenMenu] = useState("User Profile")
   const toggleMenu = (menu) => {
     setOpenMenu(prev => (prev === menu ? null : menu))
@@ -37,7 +37,7 @@ export default function Sidebar({showSidebar}) {
       `}
     >
       <div className="flex items-center gap-[12px]">
-        <CgProfile color={themeStyles.textPrimary} size={22}/>
+        <CgProfile color={theme === "dark" ? "white" : "black"} size={22}/>
         <span className={`text-[14px] font-medium ${themeStyles.textPrimary}`}>
           ByeWind
         </span>
