@@ -10,7 +10,7 @@ export default function RightBar() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
 
-  const bgClass = isDark ? "bg-neutral-800" : "bg-[#F9F9F9]"
+  const bgClass = isDark ? "bg-neutral-900" : "bg-[#F9F9F9]"
   const borderClass = isDark ? "border-white/10" : "border-[#1C1C1C1A]"
   const textPrimary = isDark ? "text-white" : "text-[#1C1C1C]"
   const textMuted = isDark ? "text-white/60" : "text-[#1C1C1C66]"
@@ -18,7 +18,7 @@ export default function RightBar() {
   return (
     <aside
       className={`
-        w-[370px]
+        w-[355px]
         h-screen overflow-y-scroll
         p-[20px]
         flex flex-col

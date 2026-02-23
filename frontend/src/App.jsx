@@ -15,7 +15,7 @@ function App() {
           <div 
             className={`
                   flex h-screen overflow-hidden
-                  ${isDark ? "bg-neutral-800" : "bg-white"} 
+                  ${isDark ? "bg-neutral-900" : "bg-white"} 
                   transition-colors duration-300
               `}>
                 <Sidebar />

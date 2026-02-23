@@ -25,7 +25,7 @@ export default function Header() {
         transition-colors duration-300
         ${
           isDark
-            ? "bg-neutral-800 border-b border-white/10"
+            ? "bg-neutral-900 border-b border-white/10"
             : "bg-white border-b border-[#1C1C1C30]"
         }
       `}
@@ -34,27 +34,27 @@ export default function Header() {
         <PanelLeft
           size={18}
           strokeWidth={1.5}
-          className={isDark ? "text-white" : "text-neutral-800"}
+          className={isDark ? "text-white" : "text-neutral-900"}
         />
 
         <Star
           size={18}
           strokeWidth={1.5}
-          className={isDark ? "text-white/60" : "text-neutral-800"}
+          className={isDark ? "text-white/60" : "text-neutral-900"}
         />
 
         <div className="flex items-center gap-[8px] text-[14px] leading-[20px]">
-          <span className={isDark ? "text-white/60" : "text-neutral-800"}>
+          <span className={isDark ? "text-white/60" : "text-neutral-900"}>
             Dashboards
           </span>
 
-          <span className={isDark ? "text-white/40" : "text-neutral-800"}>
+          <span className={isDark ? "text-white/40" : "text-neutral-900"}>
             /
           </span>
 
           <span
             className={
-              isDark ? "text-white font-medium" : "text-neutral-800 font-medium"
+              isDark ? "text-white font-medium" : "text-neutral-900 font-medium"
             }
           >
             Default
@@ -73,14 +73,14 @@ export default function Header() {
             transition-colors duration-300
             ${
               isDark
-                ? "bg-neutral-800 border-white/10"
+                ? "bg-neutral-900 border-white/10"
                 : "bg-white border-[#1C1C1C1A]"
             }
           `}
         >
           <Search
             size={16}
-            className={isDark ? "text-white/60" : "text-neutral-800"}
+            className={isDark ? "text-white/60" : "text-neutral-900"}
           />
 
           <input
@@ -107,8 +107,8 @@ export default function Header() {
               rounded-[4px]
               ${
                 isDark
-                  ? "bg-neutral-700 text-white/60"
-                  : "bg-[#F3F3F3] text-neutral-800"
+                  ? "bg-neutral-800 text-white/60"
+                  : "bg-[#F3F3F3] text-neutral-900"
               }
             `}
           >
@@ -120,23 +120,23 @@ export default function Header() {
           {isDark ? (
             <Sun size={18} className="text-white" />
           ) : (
-            <Moon size={18} className="text-neutral-800" />
+            <Moon size={18} className="text-neutral-900" />
           )}
         </button>
 
         <Clock
           size={18}
-          className={isDark ? "text-white/70" : "text-neutral-800"}
+          className={isDark ? "text-white/70" : "text-neutral-900"}
         />
 
         <Bell
           size={18}
-          className={isDark ? "text-white/70" : "text-neutral-800"}
+          className={isDark ? "text-white/70" : "text-neutral-900"}
         />
 
         <LayoutGrid
           size={18}
-          className={isDark ? "text-white/70" : "text-neutral-800"}
+          className={isDark ? "text-white/70" : "text-neutral-900"}
         />
       </div>
     </header>

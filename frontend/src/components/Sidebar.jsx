@@ -12,6 +12,8 @@ import {
   ChevronRight
 } from "lucide-react"
 
+import { CgProfile } from "react-icons/cg"
+
 import { useTheme } from "../contexts/ThemeContext"
 
 export default function Sidebar() {
@@ -35,15 +37,14 @@ export default function Sidebar() {
         font-inter
         ${
           isDark
-            ? "bg-neutral-800 border-r border-white/10"
+            ? "bg-neutral-900 border-r border-white/10"
             : "bg-white border-r border-[#1C1C1C30]"
         }
       `}
     >
-      {/* PROFILE HEADER */}
       <div className="flex items-center gap-[12px]">
-        <div className="w-[24px] h-[24px] rounded-full bg-gray-300" />
-        <span className={`text-[14px] font-medium ${isDark ? "text-white" : "text-neutral-800"}`}>
+        <CgProfile color={isDark ? "white" : "#1C1C1C"} size={22}/>
+        <span className={`text-[14px] font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
           ByeWind
         </span>
       </div>
@@ -130,7 +131,7 @@ function SectionTitle({ children, isDark }) {
   return (
     <div
         className={`text-[12px] font-light leading-[16px] mt-[10px] ${
-            isDark ? "text-white/50" : "text-neutral-800"
+            isDark ? "text-white/50" : "text-neutral-900"
         }`}
     >
         {children}
@@ -143,12 +144,12 @@ function DotItem({ label, isDark }) {
     <div className="flex items-center gap-[12px]">
         <div
             className={`w-[6px] h-[6px] rounded-full ${
-                isDark ? "bg-white/40" : "bg-neutral-800"
+                isDark ? "bg-white/40" : "bg-neutral-900"
             }`}
         />
         <span
             className={`text-[14px] leading-[20px] ${
-                isDark ? "text-white" : "text-neutral-800"
+                isDark ? "text-white" : "text-neutral-900"
             }`}
         >
             {label}
@@ -165,12 +166,12 @@ function NavItem({ icon, label, isDark }) {
         ${
             isDark
             ? "text-white hover:bg-white/10"
-            : "text-neutral-800 hover:bg-black/5"
+            : "text-neutral-900 hover:bg-black/5"
         }`}
     >
         <ChevronRight
             size={14}
-            className={isDark ? "text-white/50" : "text-neutral-800"}
+            className={isDark ? "text-white/50" : "text-neutral-900"}
         />
         {icon}
         <span>{label}</span>
