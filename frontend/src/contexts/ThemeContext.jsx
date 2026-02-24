@@ -36,8 +36,6 @@ const lightTheme = {
 
   donutTooltipBg: "#374151"
 }
-
-// 🔹 DARK THEME TOKENS
 const darkTheme = {
   layoutBg: "bg-neutral-900",
   cardBg: "bg-neutral-800",

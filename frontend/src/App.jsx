@@ -16,10 +16,10 @@ function App() {
           <div 
             className={`
                   flex h-screen overflow-hidden
-                  ${themeStyles.layoutBg} 
+                  ${themeStyles.layoutBg} relative
                   transition-colors duration-300
               `}>
-                <Sidebar showSidebar={showSidebar}/>
+                {showSidebar && <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>}
                 <Routes>
 								    <Route path="/" element={<Dashboard showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>} />
 								    <Route path="/orders" element={<OrdersPage showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>} />

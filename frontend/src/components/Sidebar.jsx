@@ -1,5 +1,6 @@
 import { useState } from "react"
 import {
+  PanelLeft,
   LayoutDashboard,
   ShoppingBag,
   Folder,
@@ -12,11 +13,13 @@ import {
   ChevronRight
 } from "lucide-react"
 
+import { IoCloseOutline } from "react-icons/io5";
+
 import { CgProfile } from "react-icons/cg"
 
 import { useTheme } from "../contexts/ThemeContext"
 
-export default function Sidebar({showSidebar}) {
+export default function Sidebar({showSidebar , setShowSidebar}) {
   const { theme , themeStyles } = useTheme()
   const [openMenu, setOpenMenu] = useState("User Profile")
   const toggleMenu = (menu) => {
@@ -26,14 +29,15 @@ export default function Sidebar({showSidebar}) {
   return (
     <aside
       className={`
+        fixed lg:static z-40
         ${showSidebar ? "w-[240px]" : "w-0"}
         h-screen overflow-y-scroll
         transition-all duration-300
         pt-[20px] pb-[20px] px-[22px]
         flex flex-col gap-[14px]
-        font-inter border-r
+        font-inter border-r lg:translate-x-0
         ${themeStyles.sidebarBg} ${themeStyles.borderPrimary}
-        ${showSidebar ? "translate-x-0" : "-translate-x-full"}
+        ${showSidebar ? "translate-x-0" : "-translate-x-full"} 
       `}
     >
       <div className="flex items-center gap-[12px]">
@@ -42,7 +46,12 @@ export default function Sidebar({showSidebar}) {
           ByeWind
         </span>
       </div>
-
+      <div 
+        className="absolute top-6 right-3"
+        onClick={()=>setShowSidebar(!showSidebar)}
+      >
+        <PanelLeft color={theme === "dark" ? "white" : "dark"} size={18}/>
+      </div>
       <SectionTitle>Favorites</SectionTitle>
       <DotItem label="Overview" />
       <DotItem label="Projects" />

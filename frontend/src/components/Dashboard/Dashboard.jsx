@@ -17,7 +17,7 @@ export default function Dashboard({showSidebar , setShowSidebar}) {
       <div className="flex-col flex-1 min-w-0">
         <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} showRightbar={showRightbar} setShowRightbar={setShowRightbar} />
           <main className={`p-6 max-h-screen overflow-y-scroll overflow-x-hidden font-inter transition-colors duration-200 ${themeStyles.textPrimary}`}>
-            <div className="grid grid-cols-12 gap-6 mb-16">
+            <div className="grid grid-cols-6 lg:grid-cols-12 gap-6 mb-16">
               <div className="col-span-6">
                 <div className="grid grid-cols-2 gap-6">
                   <StatsCard title="Customers" value="3,781" meta="+11.01%" highlight />
@@ -35,26 +35,26 @@ export default function Dashboard({showSidebar , setShowSidebar}) {
                 </Card>
               </div>
 
-              <div className="col-span-9">
+              <div className="col-span-6 lg:col-span-9">
                   
                 <Card title="Revenue">
                   <LineChart />
                 </Card>
               </div>
 
-              <div className="col-span-3">
+              <div className="col-span-6 lg:col-span-3">
                 <Card title="Revenue by Location">
                   <MapChart />
                 </Card>
               </div>
 
-              <div className="col-span-9">
+              <div className="col-span-6 lg:col-span-9">
                 <Card title="Top Selling Products">
                   <TopProductsTable />
                 </Card>
               </div>
 
-              <div className="col-span-3">
+              <div className="col-span-6 lg:col-span-3">
                 <Card title="Total Sales">
                   <DonutChart legendOnly />
                 </Card>
@@ -63,7 +63,7 @@ export default function Dashboard({showSidebar , setShowSidebar}) {
               </div>
           </main>
       </div>
-      {showRightbar && <RightBar showRightbar={showRightbar}/>}
+      {showRightbar && <RightBar showRightbar={showRightbar} setShowRightbar={setShowRightbar}/>}
     </div>
   )
 }

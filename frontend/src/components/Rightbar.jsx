@@ -2,29 +2,38 @@ import {
   Bug,
   UserPlus,
   Radio,
+  PanelRight 
 } from "lucide-react"
 
 import { useTheme } from "../contexts/ThemeContext"
 
-export default function RightBar({showRightbar}) {
-  const { themeStyles } = useTheme()
+export default function RightBar({showRightbar , setShowRightbar}) {
+  const { theme,themeStyles } = useTheme()
 
   return (
     <aside
       className={`
-        "w-[280px]"
+        "w-[280px]" fixed lg:static
         h-screen overflow-y-scroll
-        p-[20px]
+        p-[20px] right-0 top-0 z-40
         flex flex-col
         gap-[24px]
         font-inter
-        transition-colors duration-300
+        transition-all duration-300
         ${themeStyles.sidebarBg}
         border-l ${themeStyles.borderSecondary}
+        ${showRightbar ? "translate-x-0" : "translate-x-full"}
+        lg:translate-x-0
       `}
     >
       <SectionTitle >Notifications</SectionTitle>
 
+      <div 
+        className="absolute top-6 right-3"
+        onClick={()=>setShowRightbar(!showRightbar)}
+      >
+        <PanelRight color={theme === "dark" ? "white" : "dark"} size={18}/>
+      </div>
       <div className="flex flex-col gap-[16px]">
         <NotificationItem
           icon={<Bug size={16} />}
