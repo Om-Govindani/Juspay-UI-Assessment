@@ -8,7 +8,8 @@ A fully responsive Admin Dashboard built using **React** and **Tailwind CSS**, f
 
 ## 🚀 Live Demo
 
-🔗 https://react-assignment-two-sable.vercel.app/
+DashBoard : 🔗 https://react-assignment-two-sable.vercel.app/
+OrderList : 🔗 https://react-assignment-two-sable.vercel.app/orders
 
 ---
 
