@@ -50,7 +50,7 @@ export default function Sidebar({showSidebar , setShowSidebar}) {
         className="absolute top-6 right-3"
         onClick={()=>setShowSidebar(!showSidebar)}
       >
-        <PanelLeft color={theme === "dark" ? "white" : "dark"} size={18}/>
+        <PanelLeft color={theme === "dark" ? "white" : "black"} size={18}/>
       </div>
       <SectionTitle>Favorites</SectionTitle>
       <DotItem label="Overview" />

@@ -32,7 +32,7 @@ export default function RightBar({showRightbar , setShowRightbar}) {
         className="absolute top-6 right-3"
         onClick={()=>setShowRightbar(!showRightbar)}
       >
-        <PanelRight color={theme === "dark" ? "white" : "dark"} size={18}/>
+        <PanelRight color={theme === "dark" ? "white" : "black"} size={18}/>
       </div>
       <div className="flex flex-col gap-[16px]">
         <NotificationItem
