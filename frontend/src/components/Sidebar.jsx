@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState  } from "react"
 import {
   PanelLeft,
   LayoutDashboard,
@@ -18,10 +18,12 @@ import { IoCloseOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg"
 
 import { useTheme } from "../contexts/ThemeContext"
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar({showSidebar , setShowSidebar}) {
   const { theme , themeStyles } = useTheme()
   const [openMenu, setOpenMenu] = useState("User Profile")
+  const navigate = useNavigate();
   const toggleMenu = (menu) => {
     setOpenMenu(prev => (prev === menu ? null : menu))
   }
@@ -53,8 +55,8 @@ export default function Sidebar({showSidebar , setShowSidebar}) {
         <PanelLeft color={theme === "dark" ? "white" : "black"} size={18}/>
       </div>
       <SectionTitle>Favorites</SectionTitle>
-      <DotItem label="Overview" />
-      <DotItem label="Projects" />
+      <div onClick={()=>navigate('/')} className="cursor-pointer"><DotItem label="Dashboard" /></div>
+      <div onClick={()=>navigate('/orders')} className="cursor-pointer"><DotItem label="Order List" /></div>
 
       <SectionTitle >Dashboards</SectionTitle>
 
