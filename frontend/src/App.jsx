@@ -17,7 +17,7 @@ function App() {
             className={`
                   flex h-screen overflow-hidden
                   ${themeStyles.layoutBg} relative
-                  transition-colors duration-300
+                  transition-colors duration-300 select-none
               `}>
                 {showSidebar && <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>}
                 <Routes>
