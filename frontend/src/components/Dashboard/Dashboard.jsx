@@ -17,7 +17,7 @@ export default function Dashboard({showSidebar , setShowSidebar, showRightbar , 
         <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} showRightbar={showRightbar} setShowRightbar={setShowRightbar} />
           <main className={`p-6 max-h-screen overflow-y-scroll overflow-x-hidden font-inter transition-colors duration-200 ${themeStyles.textPrimary}`}>
             <div className="grid grid-cols-6 md:grid-cols-6 lg:grid-cols-12 gap-6 mb-16">
-              <div className="col-span-6">
+              <div className="col-span-6 ">
                 <div className="grid grid-cols-2 gap-6">
                   <StatsCard title="Customers" value="3,781" meta="+11.01%" highlight />
                   <StatsCard title="Orders" value="1,219" meta="-0.03%" />
@@ -71,7 +71,7 @@ export default function Dashboard({showSidebar , setShowSidebar, showRightbar , 
 function Card({ title, children }) {
   const { themeStyles } = useTheme()
   return (
-    <div className={`rounded-xl p-5 shadow-sm transition-colors duration-200 ${themeStyles.cardBg}`}>
+    <div className={`rounded-xl p-5 shadow-sm ${themeStyles.cardBg} hover:shadow-xl transition-all duration-200`}>
       {title && <div className={`text-sm ${themeStyles.textSecondary} font-medium mb-4`}>{title}</div>}
       <div>{children}</div>
     </div>

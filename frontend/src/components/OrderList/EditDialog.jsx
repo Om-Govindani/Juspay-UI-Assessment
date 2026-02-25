@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useTheme } from "../../contexts/ThemeContext"
 
-export default function EditDialog({ row, onClose, onSave }) {
+export default function EditDialog({ mode ,row, onClose, onSave }) {
   const { themeStyles, theme } = useTheme()
   const [form, setForm] = useState(row)
 
@@ -27,7 +27,7 @@ export default function EditDialog({ row, onClose, onSave }) {
 
         <div className="flex justify-between items-center mb-5">
           <h2 className={`text-lg font-semibold ${themeStyles.textPrimary}`}>
-            Edit Order
+            {mode === "edit" ? "Update Order" : "Create Order"}
           </h2>
         </div>
 
@@ -95,7 +95,7 @@ export default function EditDialog({ row, onClose, onSave }) {
               onClick={() => onSave(form)}
               className="px-4 py-2 rounded-lg text-sm bg-blue-500 hover:bg-blue-600 text-white transition-all duration-200"
             >
-              Save Changes
+              {mode === "edit" ? "Update" : "Create"}
             </button>
 
           </div>

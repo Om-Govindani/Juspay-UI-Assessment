@@ -11,7 +11,7 @@ export default function StatsCard({ title, value, meta, highlight }) {
     : themeStyles.surfaceBg
 
   return (
-    <div className={`rounded-xl p-8 ${bgClass} shadow-sm`}>
+    <div className={`rounded-xl p-8 ${bgClass} shadow-sm hover:shadow-xl transition-all duration-200`}>
       <div className={`text-xs lg:text-sm ${themeStyles.textPrimary}`}>
         {title}
       </div>
@@ -22,7 +22,7 @@ export default function StatsCard({ title, value, meta, highlight }) {
         </div>
 
         {meta && (
-          <div className={`text-xs lg:text-sm flex items-center gap-1 ${themeStyles.textPrimary}`}>
+          <div className={`text-[10px] lg:text-sm flex items-center gap-1 ${themeStyles.textPrimary}`}>
             {meta}
             <IoIosTrendingUp size={12} />
           </div>

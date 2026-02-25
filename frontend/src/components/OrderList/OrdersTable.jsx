@@ -86,6 +86,8 @@ export default function OrdersTable() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingRow, setEditingRow] = useState(null)
   const [openMenuId, setOpenMenuId] = useState(null)
+  const [dialogMode, setDialogMode] = useState(null) // "create" | "edit"
+  const [activeRow, setActiveRow] = useState(null)
 
   const pageSize = 10
 
@@ -105,32 +107,22 @@ export default function OrdersTable() {
     return () => window.removeEventListener("click", handleClick)
   }, [])
 
-  const startEditing = (row) => {
-    setEditingId(row.id)
-    setEditValues(row)
-  }
-
-  const cancelEditing = () => {
-    setEditingId(null)
-    setEditValues({})
-  }
-
-  const saveEditing = () => {
+  function handleSave(updatedRow) {
+  if (dialogMode === "edit") {
     setRowsData(prev =>
-      prev.map(r =>
-        r.id === editingId ? editValues : r
-      )
+      prev.map(r => r.id === updatedRow.id ? updatedRow : r)
     )
-
-    setEditingId(null)
-    setEditValues({})
   }
 
-  const handleChange = (field, value) => {
-    setEditValues(prev => ({
-      ...prev,
-      [field]: value
-    }))
+  if (dialogMode === "create") {
+      const newId = `#CM${Date.now().toString().slice(-4)}`
+      setRowsData(prev => [
+        { ...updatedRow, id: newId },
+        ...prev
+      ])
+    }
+
+    setDialogMode(null)
   }
 
 
@@ -229,8 +221,8 @@ export default function OrdersTable() {
       if (e.key === "Enter") {
         const row = paginated[selectedIndex]
         if (row) {
-          setEditingRow(row)
-          setIsDialogOpen(true)
+          setActiveRow(row)
+          setDialogMode("edit")
         }
       }
     }
@@ -244,7 +236,21 @@ export default function OrdersTable() {
 
       <div className={`flex items-center justify-between gap-2 p-2 rounded-md ${themeStyles.cardBg}`}>
         <div className="flex items-center lg:gap-3">
-          <button className={`p-2 rounded-md`} title="New">
+          <button 
+            onClick={() => {
+              setActiveRow({
+                id: "",
+                user: "",
+                project: "",
+                address: "",
+                date: "Just now",
+                status: "Pending"
+              })
+              setDialogMode("create")
+            }}
+            className={`p-2 rounded-md`} 
+            title="New"
+            >
             <Plus size={16} className={themeStyles.textPrimary} />
           </button>
 
@@ -337,8 +343,8 @@ export default function OrdersTable() {
               <tr
                 key={r.id}
                 onDoubleClick={() => {
-                  setEditingRow(r)
-                  setIsDialogOpen(true)
+                  setActiveRow(r)
+                  setDialogMode("edit")
                 }}
                 className={`border-t ${themeStyles.tableBorder} transition-colors hover:${themeStyles.surfaceBg === "bg-white" ? "bg-black/2" : ""} hover:bg-black/5 ${idx === selectedIndex ? "bg-blue-500/10" : ""}`}
               >
@@ -433,18 +439,12 @@ export default function OrdersTable() {
         </table>
       </div>
 
-      {isDialogOpen && (
+      {dialogMode && (
         <EditDialog
-          row={editingRow}
-          onClose={() => setIsDialogOpen(false)}
-          onSave={(updated) => {
-            setRowsData(prev =>
-              prev.map(r =>
-                r.id === updated.id ? updated : r
-              )
-            )
-            setIsDialogOpen(false)
-          }}
+          mode={dialogMode}
+          row={activeRow}
+          onClose={() => setDialogMode(null)}
+          onSave={handleSave}
         />
       )}
 
