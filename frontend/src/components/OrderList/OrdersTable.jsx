@@ -402,8 +402,8 @@ export default function OrdersTable() {
 
                       <div
                         onClick={() => {
-                          setEditingRow(r)
-                          setIsDialogOpen(true)
+                          setActiveRow(r)
+                          setDialogMode("edit")
                           setOpenMenuId(null)
                         }}
                         className={`px-3 py-2 text-sm cursor-pointer hover:opacity-70 ${themeStyles.textPrimary}`}
