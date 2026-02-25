@@ -4,7 +4,8 @@ import {
   SlidersHorizontal,
   ArrowUpDown,
   Calendar,
-  MoreHorizontal
+  MoreHorizontal,
+  Trash2
 } from "lucide-react"
 import { useTheme } from "../../contexts/ThemeContext"
 import EditDialog from "./EditDialog"
@@ -88,6 +89,7 @@ export default function OrdersTable() {
   const [openMenuId, setOpenMenuId] = useState(null)
   const [dialogMode, setDialogMode] = useState(null) // "create" | "edit"
   const [activeRow, setActiveRow] = useState(null)
+  const selectedCount = selected.size
 
   const pageSize = 10
 
@@ -253,6 +255,21 @@ export default function OrdersTable() {
             >
             <Plus size={16} className={themeStyles.textPrimary} />
           </button>
+
+          {selectedCount > 0 && (
+            <button
+              onClick={() => {
+                setRowsData(prev =>
+                  prev.filter(row => !selected.has(row.id))
+                )
+                setSelected(new Set())
+              }}
+              className={`p-2 rounded-md hover:opacity-80`}
+              title="Delete Selected"
+            >
+              <Trash2 size={16} className="text-red-500" />
+            </button>
+          )}
 
           <div className="relative">
             <button
