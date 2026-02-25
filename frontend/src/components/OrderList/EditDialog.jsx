@@ -5,6 +5,22 @@ export default function EditDialog({ mode ,row, onClose, onSave }) {
   const { themeStyles, theme } = useTheme()
   const [form, setForm] = useState(row)
 
+  function normalizeData(data) {
+    const normalized = {}
+
+    Object.keys(data).forEach(key => {
+        const value = data[key]
+
+        if (typeof value === "string" && value.trim() === "") {
+        normalized[key] = null
+        } else {
+        normalized[key] = value
+        }
+    })
+
+    return normalized
+    }
+
   const handleChange = (field, value) => {
     setForm(prev => ({
       ...prev,
@@ -15,7 +31,9 @@ export default function EditDialog({ mode ,row, onClose, onSave }) {
   useEffect(() => {
     const escClose = (e) => {
       if (e.key === "Escape") onClose()
+      if (e.key === "Enter") onSave(form)
     }
+
     window.addEventListener("keydown", escClose)
     return () => window.removeEventListener("keydown", escClose)
   }, [])
@@ -92,7 +110,7 @@ export default function EditDialog({ mode ,row, onClose, onSave }) {
             </button>
 
             <button
-              onClick={() => onSave(form)}
+              onClick={() => onSave(normalizeData(form))}
               className="px-4 py-2 rounded-lg text-sm bg-blue-500 hover:bg-blue-600 text-white transition-all duration-200"
             >
               {mode === "edit" ? "Update" : "Create"}
