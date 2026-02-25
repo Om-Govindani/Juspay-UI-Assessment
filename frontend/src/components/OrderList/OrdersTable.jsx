@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useMemo, useState , useEffect} from "react"
 import {
   Plus,
   SlidersHorizontal,
@@ -7,6 +7,7 @@ import {
   MoreHorizontal
 } from "lucide-react"
 import { useTheme } from "../../contexts/ThemeContext"
+import EditDialog from "./EditDialog"
 
 
 function generateData(count = 35) {
@@ -63,22 +64,79 @@ const statusColor = {
   "Rejected": "text-gray-400",
 }
 
+async function fetchOrders() {
+  const response = await fetch("/data/orders.json")
+  const data = await response.json()
+  return data
+}
+
 export default function OrdersTable() {
   const { themeStyles } = useTheme()
   const [statusFilter, setStatusFilter] = useState("All")
   const [showFilter, setShowFilter] = useState(false)
-
-  const rowsData = useMemo(() => generateData(35), [])
+  const [rowsData, setRowsData] = useState([])
+  const [loading, setLoading] = useState(true)
   const [q, setQ] = useState("")  
   const [sort, setSort] = useState({ key: null, dir: null })
   const [page, setPage] = useState(1)
   const [selected, setSelected] = useState(() => new Set())
+  const [editingId, setEditingId] = useState(null)
+  const [editValues, setEditValues] = useState({})
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [editingRow, setEditingRow] = useState(null)
+  const [openMenuId, setOpenMenuId] = useState(null)
 
   const pageSize = 10
 
+  useEffect(() => {
+    async function loadData() {
+      const data = await fetchOrders()
+      setRowsData(data)
+      setLoading(false)
+    }
+
+    loadData()
+  }, [])
+
+  useEffect(() => {
+    const handleClick = () => setOpenMenuId(null)
+    window.addEventListener("click", handleClick)
+    return () => window.removeEventListener("click", handleClick)
+  }, [])
+
+  const startEditing = (row) => {
+    setEditingId(row.id)
+    setEditValues(row)
+  }
+
+  const cancelEditing = () => {
+    setEditingId(null)
+    setEditValues({})
+  }
+
+  const saveEditing = () => {
+    setRowsData(prev =>
+      prev.map(r =>
+        r.id === editingId ? editValues : r
+      )
+    )
+
+    setEditingId(null)
+    setEditValues({})
+  }
+
+  const handleChange = (field, value) => {
+    setEditValues(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+
+
   const filtered = useMemo(() => {
   const query = q.trim().toLowerCase()
-
   let arr = rowsData.filter(r => {
     const matchesSearch =
       r.id.toLowerCase().includes(query) ||
@@ -112,7 +170,6 @@ export default function OrdersTable() {
   if (page > totalPages) setPage(totalPages)
   const paginated = filtered.slice((page - 1) * pageSize, page * pageSize)
 
-  /* selection helpers */
   const toggleRow = id => {
     setSelected(prev => {
       const s = new Set(prev)
@@ -143,11 +200,50 @@ export default function OrdersTable() {
     })
   }
 
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (isDialogOpen) return // don't navigate while dialog open
+
+      if (e.key === "ArrowDown") {
+        setSelectedIndex(i =>
+          Math.min(i + 1, paginated.length - 1)
+        )
+      }
+
+      if (e.key === "ArrowUp") {
+        setSelectedIndex(i =>
+          Math.max(i - 1, 0)
+        )
+      }
+
+      if (e.key === "ArrowRight") {
+        setPage(p => Math.min(totalPages, p + 1))
+        setSelectedIndex(0)
+      }
+
+      if (e.key === "ArrowLeft") {
+        setPage(p => Math.max(1, p - 1))
+        setSelectedIndex(0)
+      }
+
+      if (e.key === "Enter") {
+        const row = paginated[selectedIndex]
+        if (row) {
+          setEditingRow(row)
+          setIsDialogOpen(true)
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKey)
+    return () => window.removeEventListener("keydown", handleKey)
+  }, [paginated, selectedIndex, totalPages, isDialogOpen])
+
   return (
     <div className={`rounded-xl overflow-hidden transition-colors`}>
 
       <div className={`flex items-center justify-between gap-2 p-2 rounded-md ${themeStyles.cardBg}`}>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center lg:gap-3">
           <button className={`p-2 rounded-md`} title="New">
             <Plus size={16} className={themeStyles.textPrimary} />
           </button>
@@ -240,7 +336,11 @@ export default function OrdersTable() {
             {paginated.map((r, idx) => (
               <tr
                 key={r.id}
-                className={`border-t ${themeStyles.tableBorder} transition-colors hover:${themeStyles.surfaceBg === "bg-white" ? "bg-black/2" : ""} hover:bg-black/5`}
+                onDoubleClick={() => {
+                  setEditingRow(r)
+                  setIsDialogOpen(true)
+                }}
+                className={`border-t ${themeStyles.tableBorder} transition-colors hover:${themeStyles.surfaceBg === "bg-white" ? "bg-black/2" : ""} hover:bg-black/5 ${idx === selectedIndex ? "bg-blue-500/10" : ""}`}
               >
                 <td className="p-2 ">
                   <input type="checkbox" checked={selected.has(r.id)} onChange={() => toggleRow(r.id)} />
@@ -274,8 +374,50 @@ export default function OrdersTable() {
                   </span>
                 </td>
 
-                <td className="p-4 ">
-                  <MoreHorizontal size={16} className={themeStyles.textMuted} />
+                <td className="p-4 relative">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setOpenMenuId(prev => prev === r.id ? null : r.id)
+                    }}
+                  >
+                    <MoreHorizontal size={16} className={themeStyles.textMuted} />
+                  </button>
+
+                  {openMenuId === r.id && (
+                    <div
+                      onClick={(e) => e.stopPropagation()}
+                      className={`
+                        absolute right-4 mt-2 w-28 rounded-lg shadow-lg z-40
+                        ${themeStyles.layoutBg}
+                        border ${themeStyles.borderPrimary}
+                      `}
+                    >
+
+                      <div
+                        onClick={() => {
+                          setEditingRow(r)
+                          setIsDialogOpen(true)
+                          setOpenMenuId(null)
+                        }}
+                        className={`px-3 py-2 text-sm cursor-pointer hover:opacity-70 ${themeStyles.textPrimary}`}
+                      >
+                        Update
+                      </div>
+
+                      <div
+                        onClick={() => {
+                          setRowsData(prev => prev.filter(row => row.id !== r.id))
+                          setOpenMenuId(null)
+                        }}
+                        className="px-3 py-2 text-sm cursor-pointer text-red-400 hover:opacity-70"
+                      >
+                        Delete
+                      </div>
+
+                    </div>
+                  )}
+
                 </td>
               </tr>
             ))}
@@ -290,6 +432,21 @@ export default function OrdersTable() {
           </tbody>
         </table>
       </div>
+
+      {isDialogOpen && (
+        <EditDialog
+          row={editingRow}
+          onClose={() => setIsDialogOpen(false)}
+          onSave={(updated) => {
+            setRowsData(prev =>
+              prev.map(r =>
+                r.id === updated.id ? updated : r
+              )
+            )
+            setIsDialogOpen(false)
+          }}
+        />
+      )}
 
       
       <div className="flex items-center justify-center gap-3 p-2">

@@ -12,17 +12,17 @@ export default function StatsCard({ title, value, meta, highlight }) {
 
   return (
     <div className={`rounded-xl p-8 ${bgClass} shadow-sm`}>
-      <div className={`text-sm ${themeStyles.textPrimary}`}>
+      <div className={`text-xs lg:text-sm ${themeStyles.textPrimary}`}>
         {title}
       </div>
 
       <div className="flex items-center justify-between mt-2">
-        <div className={`text-2xl font-semibold ${themeStyles.textPrimary}`}>
+        <div className={`text-md lg:text-2xl font-semibold ${themeStyles.textPrimary}`}>
           {value}
         </div>
 
         {meta && (
-          <div className={`text-sm flex items-center gap-1 ${themeStyles.textPrimary}`}>
+          <div className={`text-xs lg:text-sm flex items-center gap-1 ${themeStyles.textPrimary}`}>
             {meta}
             <IoIosTrendingUp size={12} />
           </div>

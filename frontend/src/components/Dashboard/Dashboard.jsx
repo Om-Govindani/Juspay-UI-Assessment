@@ -9,15 +9,14 @@ import TopProductsTable from "./TopProductsTable"
 import Header from "../Header"
 import RightBar from "../Rightbar"
 
-export default function Dashboard({showSidebar , setShowSidebar}) {
+export default function Dashboard({showSidebar , setShowSidebar, showRightbar , setShowRightbar }) {
   const { themeStyles } = useTheme()
-  const [showRightbar , setShowRightbar] = useState(true);
   return (
     <div className="flex w-full h-screen">
       <div className="flex-col flex-1 min-w-0">
         <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} showRightbar={showRightbar} setShowRightbar={setShowRightbar} />
           <main className={`p-6 max-h-screen overflow-y-scroll overflow-x-hidden font-inter transition-colors duration-200 ${themeStyles.textPrimary}`}>
-            <div className="grid grid-cols-6 lg:grid-cols-12 gap-6 mb-16">
+            <div className="grid grid-cols-6 md:grid-cols-6 lg:grid-cols-12 gap-6 mb-16">
               <div className="col-span-6">
                 <div className="grid grid-cols-2 gap-6">
                   <StatsCard title="Customers" value="3,781" meta="+11.01%" highlight />
